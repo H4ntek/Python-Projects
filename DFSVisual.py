@@ -139,6 +139,8 @@ def prep_graph():
                 if where != -1:
                     highlighted = nodes[where].highlight(highlighted)
                     if nodes_made >= 2:
+                        if highlighted == 3:
+                            highlighted = 0
                         if highlighted == 2:
                             for i in range(1, next_label):
                                 ok = False
@@ -189,8 +191,8 @@ def proper_DFS(v, stack):
     FONT = pygame.font.SysFont("Calibri", BIG_FONT)
     y = 10
     stack = stack[::-1]
-    for u in stack:
-        text = FONT.render(f"{u}", True, (0, 0, 0))
+    for i in range(len(stack)):
+        text = FONT.render(f"{stack[i]}", True, ((0, 0, 0) if i != 0 else (0, 0, 255)))
         WIN.blit(text, (WDT - 200, y))
         y += 40
     stack = stack[::-1]
@@ -204,14 +206,17 @@ def proper_DFS(v, stack):
     wait_for_space()
     nodes[v].draw((0, 0, 255))
     pygame.display.update()
+    print(f"neighbors[{v}] = {neighbors[v]}")
     for child in neighbors[v]:
+        if child == 0:
+            continue
         if not vis[child]:
             pygame.draw.rect(WIN, BKG_COLOR, ((WDT - 500, HGT - 40), (WDT, HGT)))
             text = FONT.render(f"Wierzchołek {child} jeszcze nie jest odwiedzony, idę tam", True, (0, 0, 0))
             WIN.blit(text, (WDT - 500, HGT - 40))
             pygame.display.update()
             wait_for_space()
-            proper_DFS(child, stack)
+            stack = proper_DFS(child, stack)
         else:
             pygame.draw.rect(WIN, BKG_COLOR, ((WDT - 500, HGT - 40), (WDT, HGT)))
             text = FONT.render(f"Wierzchołek {child} jest już odwiedzony", True, (0, 0, 0))
@@ -226,8 +231,8 @@ def proper_DFS(v, stack):
     FONT = pygame.font.SysFont("Calibri", BIG_FONT)
     y = 10
     stack = stack[::-1]
-    for u in stack:
-        text = FONT.render(f"{u}", True, (0, 0, 0))
+    for i in range(len(stack)):
+        text = FONT.render(f"{stack[i]}", True, ((0, 0, 0) if i != 0 else (0, 0, 255)))
         WIN.blit(text, (WDT - 200, y))
         y += 40
     stack = stack[::-1]
@@ -236,6 +241,7 @@ def proper_DFS(v, stack):
     WIN.blit(text, (WDT - 500, HGT - 40))
     pygame.display.update()
     wait_for_space()
+    return stack
 
 
 def run_DFS():
