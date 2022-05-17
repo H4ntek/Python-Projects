@@ -41,7 +41,7 @@ def get_color(c):
 print("A Lissajous curve is a curve desribed by the eqautions: x = sin(at + delta), y = sin(bt).")
 have_code = input("Do you have a code to enter? (y/n): ")
 if have_code == "y":
-    cur_code = input("Enter the code (case-sensitive): ")
+    cur_code = input("Enter the code (NN-NN-NN-NN-X), where N is a base-64 digit and X is a letter [r, g, b, y, w, x] case-sensitive): ")
     cur_code = cur_code.split("-")
     a = to_base10(cur_code[0])
     b = to_base10(cur_code[1])
